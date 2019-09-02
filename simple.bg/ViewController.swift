@@ -53,13 +53,24 @@ extension ViewController : UIGestureRecognizerDelegate {
         
         print("moved")
         if let touch = touches.first {
+            
+            // calculate percentages of distances across screen dimensions of the touch in the view
+            // to determine colors
             let location = touch.location(in: self.view)
             let widthPercentage = location.x / self.view.frame.width
             let heightPercentage = location.y / self.view.frame.height
+            // determine color here so we can both assign it and extract hex values
+            // for displaying
+            let color = UIColor(hue: widthPercentage, saturation: heightPercentage, brightness: heightPercentage, alpha: 1)
+            let hexString = String(format: "#%02X%02X%02X", UInt8(color.cgColor.components![0] * 255),
+                                                           UInt8(color.cgColor.components![1] * 255),
+                                                           UInt8(color.cgColor.components![2] * 255))
             
-            print(widthPercentage, heightPercentage)
+            self.label.text = hexString
             
-            self.view.backgroundColor = UIColor(hue: widthPercentage, saturation: heightPercentage, brightness: heightPercentage, alpha: 1)
+            print(hexString)
+            
+            self.view.backgroundColor = color
         }
     }
     
