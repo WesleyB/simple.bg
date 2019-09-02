@@ -22,9 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let viewController = ViewController(nibName: nil, bundle: nil)
         
         // Create nav controller to embed ViewController in
-        let navigationController = NavigationController(rootViewController: viewController)
+        // let navigationController = NavigationController(rootViewController: viewController)
         
-        window?.rootViewController = navigationController
+        window?.rootViewController = viewController
         
         
         window?.makeKeyAndVisible()
