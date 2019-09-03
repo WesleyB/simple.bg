@@ -33,13 +33,6 @@ class ViewController: UIViewController {
         gest.direction = .init(arrayLiteral: [.left, .right, .up, .down])
         gest.delegate = self
         view.addGestureRecognizer(gest)
-        
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
     }
     
     func fadeLabel(_ fadeIn: Bool) {
@@ -63,8 +56,7 @@ extension ViewController : UIGestureRecognizerDelegate {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesMoved(touches, with: event)
-        
-        print("moved")
+
         if let touch = touches.first {
             
             // calculate percentages of distances across screen dimensions of the touch in the view
@@ -80,9 +72,6 @@ extension ViewController : UIGestureRecognizerDelegate {
                                                            UInt8(color.cgColor.components![2] * 255))
             
             self.label.text = hexString
-            
-            print(hexString)
-            
             self.view.backgroundColor = color
         }
     }
