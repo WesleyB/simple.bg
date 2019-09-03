@@ -21,22 +21,35 @@ class ViewController: UIViewController {
         label = UILabel(frame: .zero)
         label.text = "Display color value here!"
         label.textColor = UIColor.black
+        label.font = UIFont(name: "Arial Rounded MT Bold", size: view.frame.width * 0.2)
         view.addSubview(label)
         
         // hardcode to center constraint
         label.translatesAutoresizingMaskIntoConstraints = false
         label.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        label.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        label.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
         
         gest = UISwipeGestureRecognizer(target: self, action: nil)
-        gest.direction = .init(arrayLiteral: [.up, .down, .left, .right])
+        gest.direction = .init(arrayLiteral: [.left, .right, .up, .down])
         gest.delegate = self
         view.addGestureRecognizer(gest)
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+    }
+    
+    func fadeLabel(_ fadeIn: Bool) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: {
+            UIView.animate(withDuration: 0.5, animations: { [unowned self] in
+                self.label.alpha = fadeIn ? 1 : 0
+                }, completion: { _ in
+                    self.label.alpha = fadeIn ? 1 : 0
+            })
+        })
     }
 }
 
@@ -45,7 +58,7 @@ extension ViewController : UIGestureRecognizerDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
-        print("started")
+        self.label.alpha = 1
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -74,9 +87,17 @@ extension ViewController : UIGestureRecognizerDelegate {
         }
     }
     
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        
+        print("CANCELLED")
+        fadeLabel(false)
+    }
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         
         print("ended")
+        fadeLabel(false)
     }
 }
